@@ -1,0 +1,18 @@
+Structure:
+
+1. / - root module (AppModule)
+
+2. /teams | /teams/id - TeamsModule, CountersModule
+
+2.1 /teams/id/persons - TeamsModule, PersonsModule
+
+2.1.1. /teams/id/persons/id/absences - TeamsModule, PersonsModule, AbsencesModule, CountersModule
+
+2.1.1.1 /teams/id/persons/id/absences/id - TeamsModule, PersonsModule, AbsencesModule
+
+2.2 /teams/child - TeamsModule, PersonsModule, AbsencesModule
+
+3. /persons | /persons/id | /persons/id/absences/id - PersonsModule, AbsencesModule, CountersModule
+...
+
+

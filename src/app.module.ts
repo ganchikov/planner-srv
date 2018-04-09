@@ -2,12 +2,18 @@ import { Module, NestModule, MiddlewaresConsumer, RequestMethod} from '@nestjs/c
 import {LoggerMiddleware} from './middleware/logger.middleware';
 import {MongooseModule} from '@nestjs/mongoose';
 import { AppController } from './app.controller';
-import {TeamsModule} from 'services/teams/teams.module';
+import {CounterModule} from 'modules/counter/counter.module';
+import {TeamsModule} from 'modules/teams/teams.module';
+import {PersonsModule} from 'modules/persons/persons.module';
+import {AbsencesModule} from 'modules/absences/absences.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/plannerdb'),
-    TeamsModule],
+    CounterModule,
+    TeamsModule,
+    PersonsModule,
+    AbsencesModule],
   controllers: [AppController],
 })
 export class AppModule implements NestModule {

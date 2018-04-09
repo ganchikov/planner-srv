@@ -2,37 +2,51 @@ import {Controller, Get, Post, Put, Delete, Req, Res, Body, Param, Query, UsePip
 import {TeamDto } from 'dto/create-team.dto';
 import {Team} from 'interfaces/team.interface';
 import {TeamsService} from './teams.service';
+import {PersonsService} from 'modules/persons/persons.service';
 import { ValidationPipe } from 'pipes/validation.pipe';
 import {GenericExceptionFilter} from 'exceptions/http-exception.filter';
 
 @Controller('teams')
 @UseFilters(new GenericExceptionFilter())
 export class TeamsController {
-    constructor(private readonly teamsService: TeamsService) {}
+    constructor(private readonly teamsService: TeamsService,
+                private readonly personsService: PersonsService,
+    ) {}
 
     @Get()
-    async findAll(@Req() request, @Query() query, @Body() body) {
+    findAll() {
         return this.teamsService.findAll();
     }
 
+    @Get('members')
+    findAllWithMembers() {
+        return this.teamsService.findAllWithMembers();
+    }
+
+    @Get('members/absences')
+    findAllWithMembersAbsences() {
+        return this.teamsService.findAllWithMembersAbsences();
+    }
+
     @Get(':id')
-    async findOne(@Param('id') id): Promise<Team> {
+    findOne(@Param('id') id) {
         return this.teamsService.findOne(id);
     }
 
     @Post()
     @UsePipes(new ValidationPipe())
-    async create(@Body() teamDto: TeamDto): Promise<Team> {
+    create(@Body() teamDto: TeamDto) {
         return this.teamsService.create(teamDto);
     }
 
     @Put(':id')
-    async update(@Req() req, @Param('id') id: string, @Body() teamDto: TeamDto) {
+    @UsePipes(new ValidationPipe())
+    update(@Req() req, @Param('id') id: string, @Body() teamDto: TeamDto) {
         return this.teamsService.update(id, teamDto);
     }
 
-    @Delete()
-    async delete(@Param('id') id) {
+    @Delete(':id')
+    delete(@Param('id') id) {
         this.teamsService.delete(id);
     }
 }
