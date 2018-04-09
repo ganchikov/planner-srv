@@ -1,9 +1,9 @@
-import {Controller, Get, Post, Put, Delete, Req, Res, Body, Param, Query, UsePipes, UseFilters} from '@nestjs/common';
-import {TeamDto } from '../dto/create-team.dto';
-import {Team} from '../interfaces/team.interface';
+import {Controller, Get, Post, Put, Delete, Req, Res, Body, Param, Query, UsePipes, UseFilters, UseInterceptors} from '@nestjs/common';
+import {TeamDto } from 'dto/create-team.dto';
+import {Team} from 'interfaces/team.interface';
 import {TeamsService} from './teams.service';
-import { ValidationPipe } from '../pipes/validation.pipe';
-import {GenericExceptionFilter} from '../exceptions/http-exception.filter';
+import { ValidationPipe } from 'pipes/validation.pipe';
+import {GenericExceptionFilter} from 'exceptions/http-exception.filter';
 
 @Controller('teams')
 @UseFilters(new GenericExceptionFilter())
@@ -11,7 +11,7 @@ export class TeamsController {
     constructor(private readonly teamsService: TeamsService) {}
 
     @Get()
-    async findAll(@Req() request, @Query() query, @Res() res, @Body() body): Promise<Team[]> {
+    async findAll(@Req() request, @Query() query, @Body() body) {
         return this.teamsService.findAll();
     }
 

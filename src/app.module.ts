@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewaresConsumer, RequestMethod} from '@nestjs/common';
+import {LoggerMiddleware} from './middleware/logger.middleware';
 import {MongooseModule} from '@nestjs/mongoose';
 import { AppController } from './app.controller';
-import {TeamsModule} from './teams/teams.module';
+import {TeamsModule} from 'services/teams/teams.module';
 
 @Module({
   imports: [
@@ -9,4 +10,8 @@ import {TeamsModule} from './teams/teams.module';
     TeamsModule],
   controllers: [AppController],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewaresConsumer): void {
+    consumer.apply(LoggerMiddleware).with('AppModule').forRoutes(AppController);
+  }
+}
