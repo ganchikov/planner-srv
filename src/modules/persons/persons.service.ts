@@ -18,8 +18,8 @@ export class PersonsService {
     async create(createPersonDto: CreatePersonDto): Promise<Person> {
         const counter = await this.counterService.getCounterIncrement(Collections.people);
         createPersonDto.id = counter.sequence_val;
-        const createdTeam = new this.personModel(createPersonDto);
-        return await createdTeam.save();
+        const createdItm = new this.personModel(createPersonDto);
+        return await createdItm.save();
     }
 
     async findAll(filter?) {
@@ -27,14 +27,14 @@ export class PersonsService {
     }
 
     async findOne(id: string) {
-        return await this.personModel.findOne({id}).exec();
+        return await this.personModel.findById(id).exec();
     }
 
-    update(id: string, personDto: CreatePersonDto) {
-        return this.personModel.update({_id: new Types.ObjectId(id)}, personDto).exec();
+    async update(id: string, personDto: CreatePersonDto) {
+        return await this.personModel.findByIdAndUpdate(id, personDto).exec();
     }
 
-    delete(id: string) {
-
+    async delete(id: string) {
+        return await this.personModel.findByIdAndRemove(id).exec();
     }
 }

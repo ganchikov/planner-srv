@@ -1,7 +1,7 @@
 import {Model, Types} from 'mongoose';
 import {Component, UseInterceptors} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import * as MongoCollections from 'constants/mongo/collections';
+import {Collections} from 'constants/mongo';
 import {CounterService} from 'modules/counter/counter.service';
 import {CreateAbsenceDto} from 'dto/create-absence.dto';
 import {Absence} from 'interfaces/absence.interface';
@@ -16,7 +16,7 @@ export class AbsencesService {
     }
 
     async create(createAbsenceDto: CreateAbsenceDto) {
-        const counter = await this.counterService.getCounterIncrement(MongoCollections.teams);
+        const counter = await this.counterService.getCounterIncrement(Collections.teams);
         createAbsenceDto.id = counter.sequence_val;
         const createdAbsence = new this.absenceModel(createAbsenceDto);
         return await createdAbsence.save();
@@ -27,14 +27,14 @@ export class AbsencesService {
     }
 
     async findOne(id: string) {
-        return await this.absenceModel.findOne({id}).exec();
+        return await this.absenceModel.findById(id).exec();
     }
 
-    update(id: string, absenceDto: CreateAbsenceDto) {
-        return this.absenceModel.update({_id: new Types.ObjectId(id)}, absenceDto).exec();
+    async update(id: string, absenceDto: CreateAbsenceDto) {
+        return await this.absenceModel.findByIdAndUpdate(id, absenceDto).exec();
     }
 
-    delete(id: string) {
-
+    async delete(id: string) {
+        return await this.absenceModel.findByIdAndRemove(id).exec();
     }
 }

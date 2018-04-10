@@ -1,5 +1,4 @@
 import { Module, NestModule, MiddlewaresConsumer, RequestMethod} from '@nestjs/common';
-import {LoggerMiddleware} from './middleware/logger.middleware';
 import {MongooseModule} from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import {CounterModule} from 'modules/counter/counter.module';
@@ -18,6 +17,6 @@ import {AbsencesModule} from 'modules/absences/absences.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewaresConsumer): void {
-    consumer.apply(LoggerMiddleware).with('AppModule').forRoutes(AppController);
+    // consumer.apply(LoggerMiddleware).with('AppModule').forRoutes(AppController);
   }
 }
