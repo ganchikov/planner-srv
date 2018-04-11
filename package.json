@@ -33,6 +33,7 @@
     "@types/node": "^9.3.0",
     "@types/supertest": "^2.0.4",
     "jest": "^21.2.1",
+    "mockgoose-fix": "^7.3.6",
     "nodemon": "^1.14.1",
     "prettier": "^1.11.1",
     "supertest": "^3.0.0",
@@ -52,6 +53,10 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "coverageDirectory": "../coverage"
+    "coverageDirectory": "../coverage",
+    "moduleDirectories": [
+      "node_modules",
+      "./src"
+    ]
   }
 }
